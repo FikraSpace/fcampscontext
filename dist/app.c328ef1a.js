@@ -27688,7 +27688,9 @@ if ("development" !== 'production' && "development" !== 'test' && typeof window 
 
 var _default = styled;
 exports.default = _default;
-},{"stylis/stylis.min":"node_modules/stylis/stylis.min.js","stylis-rule-sheet":"node_modules/stylis-rule-sheet/index.js","react":"node_modules/react/index.js","@emotion/unitless":"node_modules/@emotion/unitless/dist/unitless.browser.esm.js","react-is":"node_modules/react-is/index.js","memoize-one":"node_modules/memoize-one/dist/memoize-one.esm.js","prop-types":"node_modules/prop-types/index.js","react-dom":"node_modules/react-dom/index.js","@emotion/is-prop-valid":"node_modules/@emotion/is-prop-valid/dist/is-prop-valid.esm.js","process":"../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/process/browser.js"}],"app.js":[function(require,module,exports) {
+},{"stylis/stylis.min":"node_modules/stylis/stylis.min.js","stylis-rule-sheet":"node_modules/stylis-rule-sheet/index.js","react":"node_modules/react/index.js","@emotion/unitless":"node_modules/@emotion/unitless/dist/unitless.browser.esm.js","react-is":"node_modules/react-is/index.js","memoize-one":"node_modules/memoize-one/dist/memoize-one.esm.js","prop-types":"node_modules/prop-types/index.js","react-dom":"node_modules/react-dom/index.js","@emotion/is-prop-valid":"node_modules/@emotion/is-prop-valid/dist/is-prop-valid.esm.js","process":"../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/process/browser.js"}],"assets/logo.png":[function(require,module,exports) {
+module.exports = "/logo.e9a9c890.png";
+},{}],"app.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -27698,6 +27700,26 @@ var _reactDom = _interopRequireDefault(require("react-dom"));
 var _styledComponents = _interopRequireDefault(require("styled-components"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n  height: 80px;\n  border: 1px solid;\n  background: #fff;\n  border-radius: 4px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-family: sans-serif;\n  font-size: 2rem;\n  margin-top: 20px;\n"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n  background-color: red;\n  min-height: 500px;\n  padding: 10px 10%;\n  \n"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -27717,6 +27739,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n  background-color: #fff;\n  height: 120px;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 0px 10%;\n"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n  background-color: #466AB3;\n  padding: 10px;\n  border-radius: 8px;\n  border: none;\n  color: white;\n  font-weight: bold;\n  min-width: 100px;\n"]);
 
@@ -27732,6 +27764,8 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 var Button = _styledComponents.default.button(_templateObject());
 
 var Context = _react.default.createContext();
+
+var Navigation = _styledComponents.default.header(_templateObject2());
 
 var Header =
 /*#__PURE__*/
@@ -27753,23 +27787,25 @@ function (_React$Component) {
   _createClass(Header, [{
     key: "render",
     value: function render() {
-      var _this2 = this;
-
-      return _react.default.createElement("div", null, _react.default.createElement(Button, {
-        onClick: function onClick() {
-          var jobs = _this2.state.jobs;
-          jobs.push({});
-
-          _this2.setState({
-            jobs: jobs
-          });
-        }
-      }, "Post A Job"));
+      return _react.default.createElement(Context.Consumer, null, function (ctx) {
+        return _react.default.createElement(Navigation, null, _react.default.createElement("img", {
+          width: "120px;",
+          src: require('./assets/logo.png')
+        }), _react.default.createElement(Button, {
+          onClick: function onClick() {
+            console.log(ctx.actions.addJob());
+          }
+        }, "Post A Job"));
+      });
     }
   }]);
 
   return Header;
 }(_react.default.Component);
+
+var Container = _styledComponents.default.main(_templateObject3());
+
+var Job = _styledComponents.default.div(_templateObject4());
 
 var JobsList =
 /*#__PURE__*/
@@ -27777,22 +27813,20 @@ function (_React$Component2) {
   _inherits(JobsList, _React$Component2);
 
   function JobsList() {
-    var _this3;
-
     _classCallCheck(this, JobsList);
 
-    _this3 = _possibleConstructorReturn(this, _getPrototypeOf(JobsList).call(this));
-    _this3.state = {
-      jobs: [{}, {}, {}]
-    };
-    return _this3;
+    return _possibleConstructorReturn(this, _getPrototypeOf(JobsList).call(this));
   }
 
   _createClass(JobsList, [{
     key: "render",
     value: function render() {
-      return _react.default.createElement(Context.Consumer, null, function (state) {
-        return _react.default.createElement("div", null, "this data ", state.state.title, " is coming from provier");
+      return _react.default.createElement(Context.Consumer, null, function (ctx) {
+        return _react.default.createElement(Container, null, ctx.state.jobs.map(function (item, i) {
+          return _react.default.createElement(Job, {
+            key: i
+          }, "Job #", i);
+        }));
       });
     }
   }]);
@@ -27806,23 +27840,35 @@ function (_React$Component3) {
   _inherits(App, _React$Component3);
 
   function App() {
-    var _this4;
+    var _this2;
 
     _classCallCheck(this, App);
 
-    _this4 = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this));
-    _this4.state = {
-      title: 'hello world'
+    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this));
+    _this2.state = {
+      jobs: [{}]
     };
-    return _this4;
+    return _this2;
   }
 
   _createClass(App, [{
     key: "render",
     value: function render() {
+      var _this3 = this;
+
       return _react.default.createElement(Context.Provider, {
         value: {
-          state: this.state
+          state: this.state,
+          actions: {
+            addJob: function addJob() {
+              var jobs = _this3.state.jobs;
+              jobs.push({});
+
+              _this3.setState({
+                jobs: jobs
+              });
+            }
+          }
         }
       }, _react.default.createElement(Header, null), _react.default.createElement(JobsList, null));
     }
@@ -27832,7 +27878,7 @@ function (_React$Component3) {
 }(_react.default.Component);
 
 _reactDom.default.render(_react.default.createElement(App, null), document.getElementById('root'));
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js","./assets/logo.png":"assets/logo.png"}],"../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -27859,7 +27905,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50325" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51141" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
