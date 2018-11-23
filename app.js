@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import firebase from 'firebase';
 
+import ReactModal from 'react-modal'
 
 
 // Initialize Firebase
@@ -29,6 +30,16 @@ let Button = styled.button`
   min-width: 100px;
 `
 
+let TextInput = styled.input`
+  display: block;
+  border: 2px solid #000;
+  width: 100%;
+  margin: 10px 0px;
+  height: 40px;
+  font-size: 1.4rem;
+`
+
+
 let Context = React.createContext()
 
 
@@ -47,7 +58,7 @@ class Header extends React.Component {
   constructor() {
     super()
     this.state = {
-      jobs: [{}, {}, {}]
+
     }
   }
 
@@ -58,9 +69,35 @@ class Header extends React.Component {
           (ctx) => {
             return (
               <Navigation>
+                <ReactModal isOpen={ctx.state.modalState}>
+                  <h1>
+                    FikraCamps
+                  </h1>
+                  <TextInput value={ctx.state.title} 
+                  onChange={(event)=>{ctx.actions.onChangeTitle(event.target.value)}} 
+                  placeholder="Title" type="text"/>
+
+                  <TextInput 
+                  onChange={(event)=>{ctx.actions.onChangeCompanyName(event.target.value)}} 
+                  value={ctx.state.company_name}
+                  placeholder="Company Name"  
+                  type="text"/>
+                 
+                  <Button onClick={()=>{
+
+                    firebase.firestore().collection('jobs').add({
+                      company_name: ctx.state.company_name,
+                      title: ctx.state.title,
+                      date: Date.now()
+                    })
+
+                    ctx.actions.toggle()
+                  }}>Save</Button>
+                  
+                </ReactModal>
                 <img width="120px;" src={require('./assets/logo.png')} />
                 <Button onClick={() => {
-                  ctx.actions.addJob()
+                  ctx.actions.toggle()
                 }}>Post A Job</Button>
               </Navigation>
             )
@@ -118,7 +155,10 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      jobs: [{}]
+      jobs: [{}],
+      modalState: false,
+      company_name: '',
+      title: ''
     }
 
     firebase.firestore().collection('jobs').orderBy('date', 'asc').onSnapshot((snapshot)=>{
@@ -147,6 +187,21 @@ class App extends React.Component {
               date: Date.now()
             })
          
+          },
+          toggle: ()=>{
+            this.setState({
+              modalState: !this.state.modalState
+            })
+          },
+          onChangeTitle: (value) =>{
+            this.setState({
+              title: value
+            })
+          },
+          onChangeCompanyName: (value) =>{
+            this.setState({
+              company_name: value
+            })
           }
         }
       }}>
