@@ -2,6 +2,23 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 
+import firebase from 'firebase';
+
+
+
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyBlJcSGcho_Jj27iPYrFH0pJcoaSugMYeM",
+  authDomain: "fikrajob.firebaseapp.com",
+  databaseURL: "https://fikrajob.firebaseio.com",
+  projectId: "fikrajob",
+  storageBucket: "fikrajob.appspot.com",
+  messagingSenderId: "259365531926"
+};
+
+firebase.initializeApp(config);
+
+
 let Button = styled.button`
   background-color: #466AB3;
   padding: 10px;
@@ -43,7 +60,7 @@ class Header extends React.Component {
               <Navigation>
                 <img width="120px;" src={require('./assets/logo.png')} />
                 <Button onClick={() => {
-                  console.log(ctx.actions.addJob())
+                  ctx.actions.addJob()
                 }}>Post A Job</Button>
               </Navigation>
             )
@@ -85,7 +102,7 @@ class JobsList extends React.Component {
           return <Container>
             {
               ctx.state.jobs.map((item, i) => {
-                return <Job key={i}>Job #{i}</Job>
+                return <Job key={i}>{item.title}{i}</Job>
               })
             }
           </Container>
@@ -103,17 +120,33 @@ class App extends React.Component {
     this.state = {
       jobs: [{}]
     }
+
+    firebase.firestore().collection('jobs').orderBy('date', 'asc').onSnapshot((snapshot)=>{
+      let jobs = []
+
+      snapshot.forEach((doc)=>{
+        jobs.push(doc.data())
+        this.setState({
+          jobs: jobs
+        })
+      })
+    })
+
   }
 
   render() {
     return (
       <Context.Provider value={{
-        state: this.state, 
+        state: this.state,
         actions: {
-          addJob:  ()=>{
-            let jobs = this.state.jobs
-            jobs.push({})
-            this.setState({ jobs: jobs })
+          addJob: () => {
+
+            firebase.firestore().collection('jobs').add({
+              title: 'JS Developer',
+              company_name: 'Twitter',
+              date: Date.now()
+            })
+         
           }
         }
       }}>
